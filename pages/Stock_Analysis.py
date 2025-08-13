@@ -129,7 +129,7 @@ def main():
                 st.error("Unable to fetch data. Please check the ticker symbol and try again.")
     
     else:
-        st.info("👈 Enter a ticker symbol and click 'Run Analysis' to get started!")
+        st.info("Enter a ticker symbol and click 'Run Analysis' to get started!")
         
         # Show popular tickers
         st.subheader("Popular Stocks")
