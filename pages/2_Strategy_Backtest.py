@@ -2,11 +2,9 @@
 Strategy Backtest Page - SMA Crossover and Performance Analysis
 """
 import streamlit as st
-import sys
 from pathlib import Path
 
 import os
-import sys
 from pathlib import Path
 
 try:
@@ -16,7 +14,6 @@ try:
 except ImportError as e:
     st.error(f"Import error: {e}")
     st.error(f"Current working directory: {os.getcwd()}")
-    st.error(f"Python path: {sys.path}")
     st.error(f"Files in current dir: {list(Path('.').glob('**/*.py'))}")
     st.stop()
 

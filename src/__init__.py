@@ -1,1 +1,0 @@
-# Quant Research Workbench package

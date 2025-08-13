@@ -2,7 +2,6 @@
 Stock Analysis Page - Interactive Charts and Technical Indicators
 """
 import streamlit as st
-import sys
 import os
 from pathlib import Path
 from datetime import datetime, timedelta
@@ -14,7 +13,6 @@ try:
 except ImportError as e:
     st.error(f"Import error: {e}")
     st.error(f"Current working directory: {os.getcwd()}")
-    st.error(f"Python path: {sys.path}")
     st.error(f"Files in current dir: {list(Path('.').glob('**/*.py'))}")
     st.stop()
 

@@ -2,23 +2,16 @@
 Performance Metrics Page - Detailed Strategy Analysis and Risk Metrics
 """
 import streamlit as st
-import sys
 from pathlib import Path
-import pandas as pd
-import numpy as np
 import plotly.graph_objects as go
 import plotly.express as px
-
 import os
-import sys
-from pathlib import Path
 
 try:
     from src.utils.strategies import calculate_additional_metrics
 except ImportError as e:
     st.error(f"Import error: {e}")
     st.error(f"Current working directory: {os.getcwd()}")
-    st.error(f"Python path: {sys.path}")
     st.error(f"Files in current dir: {list(Path('.').glob('**/*.py'))}")
     st.stop()
 
