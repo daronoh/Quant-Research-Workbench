@@ -1,4 +1,4 @@
-# 📊 Quant Research Workbench
+# Quant Research Workbench
 **Interactive Equity Analysis Dashboard**
 
 A Streamlit-powered quantitative research platform for single-asset equity analysis, technical indicators, and strategy backtesting. Built for quants, by quants.
@@ -6,9 +6,9 @@ A Streamlit-powered quantitative research platform for single-asset equity analy
 ![Python](https://img.shields.io/badge/python-v3.8+-blue.svg)
 ![Streamlit](https://img.shields.io/badge/streamlit-v1.28+-red.svg)
 
-## 🚀 Current Features
+## Current Features
 
-### 📈 Core Equity Analysis & Backtesting
+### Core Equity Analysis & Backtesting
 - **Interactive Price Charts**: Candlestick visualization with volume overlay
 - **Technical Indicators**: EMA (configurable periods), RSI (14-period), Bollinger Bands (20-period)
 - **Real-time Metrics**: Latest price, daily change, volume, current RSI
@@ -16,7 +16,7 @@ A Streamlit-powered quantitative research platform for single-asset equity analy
 - **Performance Metrics**: Total Return, CAGR, Sharpe Ratio, Volatility, Maximum Drawdown
 - **Data Source**: Yahoo Finance API with automatic caching
 
-## 🏗️ Project Roadmap
+## Project Roadmap
 
 ### Phase 1: Core Equities Research & Backtesting
 - [x] Basic charting infrastructure
@@ -54,7 +54,7 @@ A Streamlit-powered quantitative research platform for single-asset equity analy
 - [ ] Performance optimization
 - [ ] Production deployment
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 - **Frontend**: Streamlit 1.28+
 - **Data Processing**: Pandas, NumPy
@@ -63,7 +63,7 @@ A Streamlit-powered quantitative research platform for single-asset equity analy
 - **Technical Analysis**: TA-Lib library (ta)
 - **Deployment**: Local development server
 
-## 📦 Installation
+## Installation
 
 ### Prerequisites
 - Python 3.8+
@@ -82,18 +82,14 @@ python -m venv .venv
 
 # Install dependencies
 pip install -r requirements.txt
-
-# Run the application
-streamlit run app.py
 ```
 
-## 🚀 Quick Start
+## Quick Start
 
 1. **Launch the Dashboard**:
    ```bash
-   streamlit run app.py
+   .\run_app.bat
    ```
-   The app will open at `http://localhost:8501`
 
 2. **Analyze Any Stock**:
    - Enter a ticker symbol (e.g., AAPL, MSFT, GOOGL, TSLA)
@@ -106,7 +102,7 @@ streamlit run app.py
    - Click "Run Backtest" to see performance
    - Compare strategy vs buy-and-hold returns
 
-## 📊 Dashboard Layout
+## Dashboard Layout
 
 ### Sidebar Controls
 - **Ticker Input**: Enter any valid stock symbol
@@ -119,7 +115,7 @@ streamlit run app.py
 - **Stock Metrics**: Real-time price, change %, volume, current RSI
 - **Backtest Results**: Performance metrics and strategy comparison chart
 
-## 📈 Available Indicators
+## Available Indicators
 
 ### EMA (Exponential Moving Average)
 - Configurable short period: 5-50 days (default: 20)
@@ -137,7 +133,7 @@ streamlit run app.py
 - 2 standard deviation bands
 - Gray dashed lines with fill between bands
 
-## ⚙️ SMA Crossover Strategy
+## SMA Crossover Strategy
 
 The implemented strategy uses Simple Moving Average crossover signals:
 
@@ -158,7 +154,7 @@ df['Cumulative_Strategy'] = (1 + df['Strategy_Returns']).cumprod()
 - **Volatility**: Annualized standard deviation
 - **Max Drawdown**: Largest peak-to-trough decline
 
-## 🔧 Data & Caching
+## Data & Caching
 
 ### Data Source
 - **Yahoo Finance**: Free, reliable financial data via yfinance
@@ -170,7 +166,7 @@ df['Cumulative_Strategy'] = (1 + df['Strategy_Returns']).cumprod()
 - **Session Persistence**: Settings maintained during browser session
 - **Automatic Refresh**: Data refetched when parameters change
 
-## 📱 Usage Examples
+## Usage Examples
 
 ### Popular Tickers to Try
 - **Tech Stocks**: AAPL, MSFT, GOOGL, AMZN, TSLA
