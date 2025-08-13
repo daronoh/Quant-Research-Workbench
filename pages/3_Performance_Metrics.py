@@ -86,7 +86,7 @@ def main():
         col1, col2 = st.columns(2)
         with col1:
             if st.button("Go to Strategy Backtest", use_container_width=True):
-                st.switch_page("pages/2_Strategy_Backtest.py")
+                st.switch_page("2_Strategy_Backtest")
         with col2:
             if st.button("Go to Homepage", use_container_width=True):
                 st.switch_page("main.py")
@@ -299,10 +299,10 @@ def main():
     
     with col1:
         if st.button("Back to Analysis", use_container_width=True):
-            st.switch_page("pages/1_Stock_Analysis.py")
+            st.switch_page("1_Stock_Analysis")
     with col2:
         if st.button("New Backtest", use_container_width=True):
-            st.switch_page("pages/2_Strategy_Backtest.py")
+            st.switch_page("2_Strategy_Backtest")
     with col3:
         if st.button("Homepage", use_container_width=True):
             st.switch_page("main.py")
