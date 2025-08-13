@@ -292,10 +292,10 @@ def main():
     
     with col1:
         if st.button("Back to Analysis", use_container_width=True):
-            st.switch_page("1_Stock_Analysis")
+            st.switch_page("pages/1_Stock_Analysis.py")
     with col2:
         if st.button("New Backtest", use_container_width=True):
-            st.switch_page("2_Strategy_Backtest")
+            st.switch_page("pages/2_Strategy_Backtest.py")
     with col3:
         if st.button("Homepage", use_container_width=True):
             st.switch_page("main.py")

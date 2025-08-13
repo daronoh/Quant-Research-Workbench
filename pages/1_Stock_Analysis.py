@@ -119,10 +119,10 @@ def main():
                     st.markdown("---")
                     st.subheader("Next Steps")
                     if st.button("Run Strategy Backtest", use_container_width=True):
-                        st.switch_page("2_Strategy_Backtest")
+                        st.switch_page("pages/2_Strategy_Backtest.py")
                     if st.button("View Performance Metrics", use_container_width=True):
-                        st.switch_page("3_Performance_Metrics")
-            
+                        st.switch_page("pages/3_Performance_Metrics.py")
+
             else:
                 st.error("Unable to fetch data. Please check the ticker symbol and try again.")
     

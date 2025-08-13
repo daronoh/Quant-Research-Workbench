@@ -30,7 +30,7 @@ def main():
         col1, col2 = st.columns(2)
         with col1:
             if st.button("Go to Stock Analysis", use_container_width=True):
-                st.switch_page("1_Stock_Analysis")
+                st.switch_page("pages/1_Stock_Analysis.py")
         with col2:
             if st.button("Go to Homepage", use_container_width=True):
                 st.switch_page("main.py")
@@ -151,12 +151,12 @@ def main():
         # Quick navigation
         st.subheader("Navigation")
         if st.button("Back to Analysis", use_container_width=True):
-            st.switch_page("1_Stock_Analysis")
+            st.switch_page("pages/1_Stock_Analysis.py")
         if st.button("View Metrics", use_container_width=True):
-            st.switch_page("3_Performance_Metrics")
+            st.switch_page("pages/3_Performance_Metrics.py")
         if st.button("Homepage", use_container_width=True):
             st.switch_page("main.py")
-        
+
         # Strategy comparison (future feature)
         st.markdown("---")
         st.subheader("Coming Soon")
