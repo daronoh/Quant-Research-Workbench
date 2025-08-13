@@ -79,7 +79,7 @@ def main():
         col1, col2 = st.columns(2)
         with col1:
             if st.button("Go to Strategy Backtest", use_container_width=True):
-                st.switch_page("2_Strategy_Backtest")
+                st.switch_page("pages/2_Strategy_Backtest.py")
         with col2:
             if st.button("Go to Homepage", use_container_width=True):
                 st.switch_page("main.py")

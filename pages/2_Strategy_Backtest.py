@@ -130,7 +130,7 @@ def main():
                 # Navigation
                 st.success("Backtest completed! View detailed metrics on the next page.")
                 if st.button("View Detailed Metrics", use_container_width=True):
-                    st.switch_page("3_Performance_Metrics")
+                    st.switch_page("pages/3_Performance_Metrics.py")
     
     with col2:
         st.subheader("📋 Current Setup")

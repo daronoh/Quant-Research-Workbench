@@ -60,71 +60,89 @@ def main():
     # Run analysis button
     run_analysis = st.sidebar.button("Run Analysis", type="primary")
     
-    if run_analysis and ticker:
-        with st.spinner(f"Fetching data for {ticker}..."):
-            # Fetch data
-            stock_data = fetch_stock_data(ticker, start_date, end_date)
-            
-            if stock_data is not None and not stock_data.empty:
-                # Store data in session state for other pages
-                st.session_state.stock_data = stock_data
-                st.session_state.current_ticker = ticker
+    # Check if we have existing data in session state
+    has_existing_data = 'stock_data' in st.session_state and 'data_with_indicators' in st.session_state
+    
+    if (run_analysis and ticker) or has_existing_data:
+        if run_analysis and ticker:
+            with st.spinner(f"Fetching data for {ticker}..."):
+                # Fetch data
+                stock_data = fetch_stock_data(ticker, start_date, end_date)
                 
-                # Calculate indicators
-                data_with_indicators = calculate_technical_indicators(
-                    stock_data,
-                    show_ema=show_ema,
-                    ema_short=ema_short,
-                    ema_long=ema_long,
-                    show_rsi=show_rsi,
-                    show_bollinger=show_bollinger,
-                    sma_short=20,  # Default for strategy
-                    sma_long=50
-                )
-                st.session_state.data_with_indicators = data_with_indicators
-                st.session_state.analysis_params = {
-                    'show_ema': show_ema,
-                    'ema_short': ema_short,
-                    'ema_long': ema_long,
-                    'show_rsi': show_rsi,
-                    'show_bollinger': show_bollinger
-                }
-                
-                # Create layout
-                col1, col2 = st.columns([3, 1])
-                
-                with col1:
-                    # Display price chart
-                    chart = create_price_chart(
-                        data_with_indicators,
-                        ticker,
+                if stock_data is not None and not stock_data.empty:
+                    # Store data in session state for other pages
+                    st.session_state.stock_data = stock_data
+                    st.session_state.current_ticker = ticker
+                    
+                    # Calculate indicators
+                    data_with_indicators = calculate_technical_indicators(
+                        stock_data,
                         show_ema=show_ema,
                         ema_short=ema_short,
                         ema_long=ema_long,
                         show_rsi=show_rsi,
-                        show_bollinger=show_bollinger
+                        show_bollinger=show_bollinger,
+                        sma_short=20,  # Default for strategy
+                        sma_long=50
                     )
-                    st.plotly_chart(chart, use_container_width=True)
+                    st.session_state.data_with_indicators = data_with_indicators
+                    st.session_state.analysis_params = {
+                        'show_ema': show_ema,
+                        'ema_short': ema_short,
+                        'ema_long': ema_long,
+                        'show_rsi': show_rsi,
+                        'show_bollinger': show_bollinger
+                    }
+                else:
+                    st.error("Unable to fetch data. Please check the ticker symbol and try again.")
+                    return
+        
+        # Use existing data from session state or newly fetched data
+        if 'stock_data' in st.session_state and 'data_with_indicators' in st.session_state:
+            stock_data = st.session_state.stock_data
+            data_with_indicators = st.session_state.data_with_indicators
+            ticker = st.session_state.get('current_ticker', ticker)
+            
+            # Get analysis params from session state if available
+            analysis_params = st.session_state.get('analysis_params', {})
+            show_ema = analysis_params.get('show_ema', show_ema)
+            ema_short = analysis_params.get('ema_short', ema_short)
+            ema_long = analysis_params.get('ema_long', ema_long)
+            show_rsi = analysis_params.get('show_rsi', show_rsi)
+            show_bollinger = analysis_params.get('show_bollinger', show_bollinger)
+            
+            # Create layout
+            col1, col2 = st.columns([3, 1])
+            
+            with col1:
+                # Display price chart
+                chart = create_price_chart(
+                    data_with_indicators,
+                    ticker,
+                    show_ema=show_ema,
+                    ema_short=ema_short,
+                    ema_long=ema_long,
+                    show_rsi=show_rsi,
+                    show_bollinger=show_bollinger
+                )
+                st.plotly_chart(chart, use_container_width=True)
+            
+            with col2:
+                # Display stock info
+                stock_info = get_stock_info(stock_data)
+                current_rsi = None
+                if show_rsi and 'RSI' in data_with_indicators.columns:
+                    current_rsi = data_with_indicators['RSI'].iloc[-1]
                 
-                with col2:
-                    # Display stock info
-                    stock_info = get_stock_info(stock_data)
-                    current_rsi = None
-                    if show_rsi and 'RSI' in data_with_indicators.columns:
-                        current_rsi = data_with_indicators['RSI'].iloc[-1]
-                    
-                    render_stock_info_panel(stock_info, current_rsi)
-                    
-                    # Navigation to other pages
-                    st.markdown("---")
-                    st.subheader("Next Steps")
-                    if st.button("Run Strategy Backtest", use_container_width=True):
-                        st.switch_page("pages/2_Strategy_Backtest.py")
-                    if st.button("View Performance Metrics", use_container_width=True):
-                        st.switch_page("pages/3_Performance_Metrics.py")
-
-            else:
-                st.error("Unable to fetch data. Please check the ticker symbol and try again.")
+                render_stock_info_panel(stock_info, current_rsi)
+                
+                # Navigation to other pages
+                st.markdown("---")
+                st.subheader("Next Steps")
+                if st.button("Run Strategy Backtest", use_container_width=True):
+                    st.switch_page("pages/2_Strategy_Backtest.py")
+                if st.button("View Performance Metrics", use_container_width=True):
+                    st.switch_page("pages/3_Performance_Metrics.py")
     
     else:
         st.info("Enter a ticker symbol and click 'Run Analysis' to get started!")
