@@ -4,7 +4,7 @@ Data fetching and processing utilities
 import streamlit as st
 import yfinance as yf
 import pandas as pd
-import ta
+from ta import trend, momentum, volatility
 from typing import Optional, Tuple
 
 
@@ -58,23 +58,23 @@ def calculate_technical_indicators(data: pd.DataFrame,
     
     # EMA
     if show_ema:
-        df[f'EMA_{ema_short}'] = ta.trend.ema_indicator(df['Close'], window=ema_short)
-        df[f'EMA_{ema_long}'] = ta.trend.ema_indicator(df['Close'], window=ema_long)
+        df[f'EMA_{ema_short}'] = trend.ema_indicator(df['Close'], window=ema_short)
+        df[f'EMA_{ema_long}'] = trend.ema_indicator(df['Close'], window=ema_long)
     
     # RSI
     if show_rsi:
-        df['RSI'] = ta.momentum.rsi(df['Close'], window=14)
-    
+        df['RSI'] = momentum.rsi(df['Close'], window=14)
+
     # Bollinger Bands
     if show_bollinger:
-        bb = ta.volatility.BollingerBands(df['Close'], window=20, window_dev=2)
+        bb = volatility.BollingerBands(df['Close'], window=20, window_dev=2)
         df['BB_Upper'] = bb.bollinger_hband()
         df['BB_Lower'] = bb.bollinger_lband()
         df['BB_Middle'] = bb.bollinger_mavg()
     
     # SMA for strategy
-    df[f'SMA_{sma_short}'] = ta.trend.sma_indicator(df['Close'], window=sma_short)
-    df[f'SMA_{sma_long}'] = ta.trend.sma_indicator(df['Close'], window=sma_long)
+    df[f'SMA_{sma_short}'] = trend.sma_indicator(df['Close'], window=sma_short)
+    df[f'SMA_{sma_long}'] = trend.sma_indicator(df['Close'], window=sma_long)
     
     return df
 

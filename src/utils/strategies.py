@@ -25,23 +25,33 @@ class SMAStrategy:
         """
         df = data.copy()
         
-        # Generate signals
-        df['Signal'] = 0
+        # Calculate SMAs if not present
         sma_short_col = f'SMA_{self.short_period}'
         sma_long_col = f'SMA_{self.long_period}'
         
-        if sma_short_col in df.columns and sma_long_col in df.columns:
-            df['Signal'][df[sma_short_col] > df[sma_long_col]] = 1
-            df['Position'] = df['Signal'].diff()
+        if sma_short_col not in df.columns:
+            df[sma_short_col] = df['Close'].rolling(window=self.short_period).mean()
+        if sma_long_col not in df.columns:
+            df[sma_long_col] = df['Close'].rolling(window=self.long_period).mean()
+        
+        # Generate signals
+        df['Signal'] = 0
+        df.loc[df[sma_short_col] > df[sma_long_col], 'Signal'] = 1
+        df.loc[df[sma_short_col] < df[sma_long_col], 'Signal'] = -1
+        
+        # Create position column (1 for long, 0 for neutral, -1 for short)
+        df['Position'] = df['Signal'].shift(1)  # Use previous signal for position
+        df['Position'] = df['Position'].fillna(0)
         
         return df
     
-    def backtest(self, data: pd.DataFrame) -> Tuple[pd.DataFrame, Dict[str, str]]:
+    def backtest(self, data: pd.DataFrame, transaction_cost: float = 0.001) -> Tuple[pd.DataFrame, Dict[str, str]]:
         """
         Run complete backtest for the strategy
         
         Args:
             data: DataFrame with OHLCV and indicator data
+            transaction_cost: Transaction cost as a fraction (e.g., 0.001 = 0.1%)
             
         Returns:
             Tuple of (backtest_data, performance_metrics)
@@ -50,18 +60,25 @@ class SMAStrategy:
         
         # Calculate returns
         df['Returns'] = df['Close'].pct_change()
-        df['Strategy_Returns'] = df['Signal'].shift(1) * df['Returns']
+        
+        # Calculate strategy returns with transaction costs
+        df['Strategy_Returns'] = df['Position'] * df['Returns']
+        
+        # Apply transaction costs when position changes
+        position_changes = df['Position'].diff().abs()
+        df['Transaction_Costs'] = position_changes * transaction_cost
+        df['Strategy_Returns'] = df['Strategy_Returns'] - df['Transaction_Costs']
         
         # Calculate cumulative returns
         df['Cumulative_Returns'] = (1 + df['Returns']).cumprod()
         df['Cumulative_Strategy'] = (1 + df['Strategy_Returns']).cumprod()
         
         # Calculate performance metrics
-        metrics = self._calculate_metrics(df)
+        metrics = self.calculate_metrics(df)
         
         return df, metrics
     
-    def _calculate_metrics(self, df: pd.DataFrame) -> Dict[str, str]:
+    def calculate_metrics(self, df: pd.DataFrame) -> Dict[str, str]:
         """Calculate performance metrics"""
         total_return = df['Cumulative_Strategy'].iloc[-1] - 1
         annual_return = (df['Cumulative_Strategy'].iloc[-1] ** (252 / len(df))) - 1
