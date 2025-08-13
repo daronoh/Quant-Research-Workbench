@@ -13,13 +13,6 @@ import os
 import sys
 from pathlib import Path
 
-# Add src directory to path for imports
-current_dir = Path(__file__).parent.parent
-if str(current_dir) not in sys.path:
-    sys.path.insert(0, str(current_dir))
-if str(current_dir / 'src') not in sys.path:
-    sys.path.insert(0, str(current_dir / 'src'))
-
 try:
     from src.utils.strategies import calculate_additional_metrics
 except ImportError as e:

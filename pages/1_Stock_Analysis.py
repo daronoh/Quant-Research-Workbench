@@ -3,19 +3,9 @@ Stock Analysis Page - Interactive Charts and Technical Indicators
 """
 import streamlit as st
 import sys
+import os
 from pathlib import Path
 from datetime import datetime, timedelta
-
-import os
-import sys
-from pathlib import Path
-
-# Add src directory to path for imports
-current_dir = Path(__file__).parent.parent
-if str(current_dir) not in sys.path:
-    sys.path.insert(0, str(current_dir))
-if str(current_dir / 'src') not in sys.path:
-    sys.path.insert(0, str(current_dir / 'src'))
 
 try:
     from src.utils.data_handler import fetch_stock_data, calculate_technical_indicators, get_stock_info
