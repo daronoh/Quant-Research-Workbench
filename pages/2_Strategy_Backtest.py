@@ -5,9 +5,16 @@ import streamlit as st
 import sys
 from pathlib import Path
 
+import os
+import sys
+from pathlib import Path
+
 # Add src directory to path for imports
 current_dir = Path(__file__).parent.parent
-sys.path.insert(0, str(current_dir))
+if str(current_dir) not in sys.path:
+    sys.path.insert(0, str(current_dir))
+if str(current_dir / 'src') not in sys.path:
+    sys.path.insert(0, str(current_dir / 'src'))
 
 try:
     from src.utils.strategies import SMAStrategy
@@ -15,6 +22,9 @@ try:
     from src.components.ui_components import render_performance_metrics
 except ImportError as e:
     st.error(f"Import error: {e}")
+    st.error(f"Current working directory: {os.getcwd()}")
+    st.error(f"Python path: {sys.path}")
+    st.error(f"Files in current dir: {list(Path('.').glob('**/*.py'))}")
     st.stop()
 
 st.set_page_config(page_title="Strategy Backtest", layout="wide")
@@ -30,7 +40,7 @@ def main():
         col1, col2 = st.columns(2)
         with col1:
             if st.button("Go to Stock Analysis", use_container_width=True):
-                st.switch_page("pages/Stock_Analysis.py")
+                st.switch_page("pages/1_Stock_Analysis.py")
         with col2:
             if st.button("Go to Homepage", use_container_width=True):
                 st.switch_page("main.py")
@@ -130,7 +140,7 @@ def main():
                 # Navigation
                 st.success("Backtest completed! View detailed metrics on the next page.")
                 if st.button("View Detailed Metrics", use_container_width=True):
-                    st.switch_page("pages/Performance_Metrics.py")
+                    st.switch_page("pages/3_Performance_Metrics.py")
     
     with col2:
         st.subheader("📋 Current Setup")
@@ -151,9 +161,9 @@ def main():
         # Quick navigation
         st.subheader("Navigation")
         if st.button("Back to Analysis", use_container_width=True):
-            st.switch_page("pages/Stock_Analysis.py")
+            st.switch_page("pages/1_Stock_Analysis.py")
         if st.button("View Metrics", use_container_width=True):
-            st.switch_page("pages/Performance_Metrics.py")
+            st.switch_page("pages/3_Performance_Metrics.py")
         if st.button("Homepage", use_container_width=True):
             st.switch_page("main.py")
         

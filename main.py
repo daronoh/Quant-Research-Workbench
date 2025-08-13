@@ -46,13 +46,13 @@ def main():
         col_a, col_b, col_c = st.columns(3)
         with col_a:
             if st.button("Analyze Stocks", use_container_width=True):
-                st.switch_page("pages/Stock_Analysis.py")
+                st.switch_page("pages/1_Stock_Analysis.py")
         with col_b:
             if st.button("Run Backtests", use_container_width=True):
-                st.switch_page("pages/Strategy_Backtest.py")
+                st.switch_page("pages/2_Strategy_Backtest.py")
         with col_c:
             if st.button("View Metrics", use_container_width=True):
-                st.switch_page("pages/Performance_Metrics.py")
+                st.switch_page("pages/3_Performance_Metrics.py")
     
     with col2:
         st.subheader("Popular Tickers")
@@ -64,7 +64,7 @@ def main():
             if st.button(f"{ticker}", key=f"ticker_{ticker}", use_container_width=True):
                 # Store selected ticker in session state
                 st.session_state.selected_ticker = ticker
-                st.switch_page("pages/Stock_Analysis.py")
+                st.switch_page("pages/1_Stock_Analysis.py")
         
         st.markdown("---")
         
@@ -75,7 +75,7 @@ def main():
         for etf in etfs:
             if st.button(f"{etf}", key=f"etf_{etf}", use_container_width=True):
                 st.session_state.selected_ticker = etf
-                st.switch_page("pages/Stock_Analysis.py")
+                st.switch_page("pages/1_Stock_Analysis.py")
 
 if __name__ == "__main__":
     main()

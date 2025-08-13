@@ -6,9 +6,16 @@ import sys
 from pathlib import Path
 from datetime import datetime, timedelta
 
+import os
+import sys
+from pathlib import Path
+
 # Add src directory to path for imports
 current_dir = Path(__file__).parent.parent
-sys.path.insert(0, str(current_dir))
+if str(current_dir) not in sys.path:
+    sys.path.insert(0, str(current_dir))
+if str(current_dir / 'src') not in sys.path:
+    sys.path.insert(0, str(current_dir / 'src'))
 
 try:
     from src.utils.data_handler import fetch_stock_data, calculate_technical_indicators, get_stock_info
@@ -16,6 +23,9 @@ try:
     from src.components.ui_components import render_stock_info_panel
 except ImportError as e:
     st.error(f"Import error: {e}")
+    st.error(f"Current working directory: {os.getcwd()}")
+    st.error(f"Python path: {sys.path}")
+    st.error(f"Files in current dir: {list(Path('.').glob('**/*.py'))}")
     st.stop()
 
 st.set_page_config(page_title="Stock Analysis", layout="wide")
@@ -121,9 +131,9 @@ def main():
                     st.markdown("---")
                     st.subheader("Next Steps")
                     if st.button("Run Strategy Backtest", use_container_width=True):
-                        st.switch_page("pages/Strategy_Backtest.py")
+                        st.switch_page("pages/2_Strategy_Backtest.py")
                     if st.button("View Performance Metrics", use_container_width=True):
-                        st.switch_page("pages/Performance_Metrics.py")
+                        st.switch_page("pages/3_Performance_Metrics.py")
             
             else:
                 st.error("Unable to fetch data. Please check the ticker symbol and try again.")
